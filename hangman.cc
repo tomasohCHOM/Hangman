@@ -49,8 +49,8 @@ void Hangman::PlayHangman() {
 
 std::string Hangman::DisplayIncorrectGuesses() {
     std::string output = "[";
-    for (int i = 0; i < incorrect_guesses_.size(); i++) {
-        (i == 0) ? (output += incorrect_guesses_[i]) : (output += ", " + incorrect_guesses_[i]);
+    for (std::vector<std::string>::const_iterator itr = incorrect_guesses_.cbegin(); itr != incorrect_guesses_.cend(); ++itr) {
+        (itr == incorrect_guesses_.cbegin()) ? (output += *itr) : (output += ", " + *itr);
     }
     output += "]";
     return output;
