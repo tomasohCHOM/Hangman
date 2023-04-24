@@ -70,8 +70,8 @@ void Hangman::PlayHangman() {
         // This ensures that the input is a lower case letter.
         if (letter_guess_.size() == 1 && (int)letter_guess_[0] >= 97 && (int)letter_guess_[0] <= 122) {
             // Check whether the letter was already guessed.
-            if (hidden_word_.find(letter_guess_[0]) != -1 || std::find(incorrect_guesses_.cbegin(), incorrect_guesses_.cend(), letter_guess_[0]) != incorrect_guesses_.cend()) {
-                std::cout << "The letter was already been guessed. Try again.\n";
+            if (hidden_word_.find(letter_guess_[0]) != -1 || std::find(incorrect_guesses_.begin(), incorrect_guesses_.end(), letter_guess_) != incorrect_guesses_.end()) {
+                std::cout << "The letter has already been guessed. Try again.\n";
             }
             // Find whether the letter exists in the answer.
             else if (answer_.find(letter_guess_) != -1) {
