@@ -4,42 +4,47 @@
 #include "hangman.h"
 
 Hangman::Hangman() : dictionary_("valid_words.txt"), answer_(dictionary_.GetRandomWord()), lives_(6) {
-    // Welcome and introduce the rules to the player
+    // Welcome and introduce the rules to the player.
     std::cout << "\n=================Hangman=================\n"
               << "Welcome to Hangman! Your goal is to guess the secret word before the man is hanged.\n\n"
               << "You do so by typing letters, revealing the letters of the secret word one by one.\n\n"
               << "For every incorrect guess, one part will be added to the man.\n\n"
               << "If his body is completed before you guess the word, you lose! Good Luck!\n\n";
-    
+    // A variable that will check if the difficulty was NOT selected, true by default.
     bool isNotSelected = true;
 
+    // While the difficulty wasn't selected, execute the loop body.
     while (isNotSelected) {
-        // Prompt the user to select a difficulty
+        // Prompt the user to select a difficulty.
         std::cout << "Which difficulty are you going to play on?\n"
                 << "Press '1': Easy\n"
                 << "Press '2': Medium\n"
                 << "Press '3': Very Hard\n";
         
-        // Accept user input
+        // Accept user input as an integer.
         int difficultyLevel = 0;
         std::cin >> difficultyLevel;
 
         switch(difficultyLevel) {
+            // Easy difficulty.
             case 1:
                 std::cout << "You selected to play in Easy difficulty. This should be fun!\n";
                 dictionary_ = Dictionary("valid_words.txt");
                 isNotSelected = false;
                 break;
+            // Medium difficulty.
             case 2:
                 std::cout << "Medium difficulty? Now we are talking!\n";
                 dictionary_ = Dictionary("valid_words.txt");
                 isNotSelected = false;
                 break;
+            // Very hard difficulty.
             case 3:
                 std::cout << "Wow, you chose Very Hard? Prepare yourself...\n";
                 dictionary_ = Dictionary("valid_words.txt");
                 isNotSelected = false;
                 break;
+            // Neither of the above, ask for user input again.
             default:
                 std::cout << "Invalid input. Try again and choose an appropriate difficulty.\n";
                 break;
