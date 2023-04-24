@@ -8,7 +8,7 @@
 
 class Hangman {
     public:
-        Hangman() : dictionary_("valid_words.txt"), answer_(dictionary_.GetRandomWord()), lives_(6) {}
+        Hangman();
         std::string DisplayIncorrectGuesses();
         void PlayHangman();
         void DrawHangman();

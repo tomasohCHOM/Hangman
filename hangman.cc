@@ -3,13 +3,51 @@
 
 #include "hangman.h"
 
-void Hangman::PlayHangman() {
+Hangman::Hangman() : dictionary_("valid_words.txt"), answer_(dictionary_.GetRandomWord()), lives_(6) {
     // Welcome and introduce the rules to the player
     std::cout << "\n=================Hangman=================\n"
               << "Welcome to Hangman! Your goal is to guess the secret word before the man is hanged.\n\n"
               << "You do so by typing letters, revealing the letters of the secret word one by one.\n\n"
               << "For every incorrect guess, one part will be added to the man.\n\n"
               << "If his body is completed before you guess the word, you lose! Good Luck!\n\n";
+    
+    bool isNotSelected = true;
+
+    while (isNotSelected) {
+        // Prompt the user to select a difficulty
+        std::cout << "Which difficulty are you going to play on?\n"
+                << "Press '1': Easy\n"
+                << "Press '2': Medium\n"
+                << "Press '3': Very Hard\n";
+        
+        // Accept user input
+        int difficultyLevel = 0;
+        std::cin >> difficultyLevel;
+
+        switch(difficultyLevel) {
+            case 1:
+                std::cout << "You selected to play in Easy difficulty. This should be fun!\n";
+                dictionary_ = Dictionary("valid_words.txt");
+                isNotSelected = false;
+                break;
+            case 2:
+                std::cout << "Medium difficulty? Now we are talking!\n";
+                dictionary_ = Dictionary("valid_words.txt");
+                isNotSelected = false;
+                break;
+            case 3:
+                std::cout << "Wow, you chose Very Hard? Prepare yourself...\n";
+                dictionary_ = Dictionary("valid_words.txt");
+                isNotSelected = false;
+                break;
+            default:
+                std::cout << "Invalid input. Try again and choose an appropriate difficulty.\n";
+                break;
+        }
+    }
+}
+
+void Hangman::PlayHangman() {
     // Make the hidden word by taking the length of the answer and replacing it with "_".
     for (int i = 0; i < answer_.size(); i++) {
         hidden_word_ += "_";
