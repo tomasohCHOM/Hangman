@@ -32,19 +32,19 @@ Hangman::Hangman() : dictionary_("valid_words.txt"), answer_(dictionary_.GetRand
             // Easy difficulty.
             case 1:
                 std::cout << "You selected to play in Easy difficulty. This should be fun!\n";
-                dictionary_ = Dictionary("valid_words.txt");
+                dictionary_ = Dictionary("easy_words.txt");
                 isNotSelected = false;
                 break;
             // Medium difficulty.
             case 2:
                 std::cout << "Medium difficulty? Now we are talking!\n";
-                dictionary_ = Dictionary("valid_words.txt");
+                dictionary_ = Dictionary("medium_words.txt");
                 isNotSelected = false;
                 break;
             // Very hard difficulty.
             case 3:
                 std::cout << "Wow, you chose Very Hard? Prepare yourself...\n";
-                dictionary_ = Dictionary("valid_words.txt");
+                dictionary_ = Dictionary("veryhard_words.txt");
                 isNotSelected = false;
                 break;
             // Neither of the above, ask for user input again.
