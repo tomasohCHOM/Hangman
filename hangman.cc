@@ -6,7 +6,7 @@
 
 #include "hangman.h"
 
-Hangman::Hangman() : dictionary_("valid_words.txt"), answer_(dictionary_.GetRandomWord()), lives_(6) {
+Hangman::Hangman() : dictionary_("place_holder.txt") {
     // Welcome and introduce the rules to the player.
     std::cout << "\n=================Hangman=================\n"
               << "Welcome to Hangman! Your goal is to guess the secret word before the man is hanged.\n\n"
@@ -27,7 +27,7 @@ Hangman::Hangman() : dictionary_("valid_words.txt"), answer_(dictionary_.GetRand
         // Accept user input as an integer.
         int difficultyLevel = 0;
         std::cin >> difficultyLevel;
-
+        
         switch(difficultyLevel) {
             // Easy difficulty.
             case 1:
@@ -53,6 +53,8 @@ Hangman::Hangman() : dictionary_("valid_words.txt"), answer_(dictionary_.GetRand
                 break;
         }
     }
+    answer_ = dictionary_.GetRandomWord();
+    lives_ = 6;
 }
 
 void Hangman::PlayHangman() {
