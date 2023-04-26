@@ -6,7 +6,6 @@
 
 class Dictionary {
     public:
-        Dictionary();
         Dictionary(const std::string &valid_words_filename);
         const std::string &GetRandomWord() const;
     private:
