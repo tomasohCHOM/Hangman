@@ -9,9 +9,9 @@
 Hangman::Hangman() : dictionary_("place_holder.txt") {
     // Welcome and introduce the rules to the player.
     std::cout << "\n=================Hangman=================\n"
-              << "Welcome to Hangman! Your goal is to guess the secret word before the man is hanged.\n\n"
-              << "You do so by typing letters, revealing the letters of the secret word one by one.\n\n"
-              << "For every incorrect guess, one part will be added to the man.\n\n"
+              << "Welcome to Hangman! Your goal is to guess the secret word before the man is hanged.\n"
+              << "You do so by typing letters, revealing the letters of the secret word one by one.\n"
+              << "For every incorrect guess, one part will be added to the man.\n"
               << "If his body is completed before you guess the word, you lose! Good Luck!\n\n";
     // A variable that will check if the difficulty was NOT selected, true by default.
     bool isNotSelected = true;
@@ -20,29 +20,29 @@ Hangman::Hangman() : dictionary_("place_holder.txt") {
     while (isNotSelected) {
         // Prompt the user to select a difficulty.
         std::cout << "Which difficulty are you going to play on?\n"
-                << "Press '1': Easy\n"
-                << "Press '2': Medium\n"
-                << "Press '3': Very Hard\n";
+                << "Press 'E': Easy\n"
+                << "Press 'M': Medium\n"
+                << "Press 'H': Very Hard\n";
         
-        // Accept user input as an integer.
-        int difficultyLevel = 0;
+        // Accept user input as a single character.
+        char difficultyLevel;
         std::cin >> difficultyLevel;
         
-        switch(difficultyLevel) {
+        switch(std::tolower(difficultyLevel)) {
             // Easy difficulty.
-            case 1:
+            case 'e':
                 std::cout << "You selected to play in Easy difficulty. This should be fun!\n";
                 dictionary_ = Dictionary("easy_words.txt");
                 isNotSelected = false;
                 break;
             // Medium difficulty.
-            case 2:
+            case 'm':
                 std::cout << "Medium difficulty? Now we are talking!\n";
                 dictionary_ = Dictionary("medium_words.txt");
                 isNotSelected = false;
                 break;
             // Very hard difficulty.
-            case 3:
+            case 'h':
                 std::cout << "Wow, you chose Very Hard? Prepare yourself...\n";
                 dictionary_ = Dictionary("veryhard_words.txt");
                 isNotSelected = false;
@@ -66,13 +66,20 @@ void Hangman::PlayHangman() {
     DrawHangman();
     std::cout << "The word: " << hidden_word_ << "\n";
     while (lives_ > 0 && answer_ != hidden_word_) {
+        std::string input;
         // Prompt the user to enter their guess.
         std::cout << "Enter your guess (must be a letter): ";
-        std::cin >> letter_guess_;
-        // This ensures that the input is a lower case letter.
-        if (letter_guess_.size() == 1 && (int)letter_guess_[0] >= 97 && (int)letter_guess_[0] <= 122) {
+        std::cin >> input;
+        // Ensure that the input is a lower case letter. We need a string so that it doesn't take more than one
+        // character by accident.
+        if (input.size() != 1 || !((input[0] >= 'a' && input[0] <= 'z') || input[0] >= 'A' && input[0] <= 'Z')) {
+            std::cout << "Invalid input, must be a letter. Please, try again.\n";
+        }
+        else {
+            // Transform our string variable to a character.
+            letter_guess_ = std::tolower(input[0]);
             // Check whether the letter was already guessed.
-            if (hidden_word_.find(letter_guess_[0]) != -1 || std::find(incorrect_guesses_.cbegin(), incorrect_guesses_.cend(), letter_guess_) != incorrect_guesses_.cend()) {
+            if (hidden_word_.find(letter_guess_) != -1 || std::find(incorrect_guesses_.cbegin(), incorrect_guesses_.cend(), letter_guess_) != incorrect_guesses_.cend()) {
                 std::cout << "The letter has already been guessed. Try again.\n";
             }
             // Find whether the letter exists in the answer.
@@ -83,8 +90,6 @@ void Hangman::PlayHangman() {
                 incorrect_guesses_.push_back(letter_guess_);
                 std::cout << "That's incorrect! A part has been added to the Hangman's body.\n";
             }
-        } else {
-            std::cout << "Invalid input, must be a lower case letter. Please, try again.\n";
         }
         // Draw the now updated hangman (depending on whether the guess is correct or not).
         DrawHangman();
@@ -101,8 +106,11 @@ void Hangman::PlayHangman() {
 
 std::string Hangman::DisplayIncorrectGuesses() {
     std::string output = "[";
-    for (std::vector<std::string>::const_iterator itr = incorrect_guesses_.cbegin(); itr != incorrect_guesses_.cend(); ++itr) {
-        (itr == incorrect_guesses_.cbegin()) ? (output += *itr) : (output += ", " + *itr);
+    for (std::vector<char>::const_iterator itr = incorrect_guesses_.cbegin(); itr != incorrect_guesses_.cend(); ++itr) {
+        // (itr == incorrect_guesses_.cbegin()) ? (output += *itr) : (output += ", " + *itr);
+        output += *itr;
+        if (itr == incorrect_guesses_.cend() - 1) continue;
+        output += ", ";
     }
     output += "]";
     return output;
@@ -110,8 +118,8 @@ std::string Hangman::DisplayIncorrectGuesses() {
 
 void Hangman::RevealLetterLocation() {
     for (int i = 0; i < answer_.size(); i++) {
-        if (answer_[i] == letter_guess_[0]) {
-            hidden_word_[i] = letter_guess_[0];
+        if (answer_[i] == letter_guess_) {
+            hidden_word_[i] = letter_guess_;
         }
     }
 }
